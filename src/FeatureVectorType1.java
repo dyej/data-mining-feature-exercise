@@ -16,17 +16,17 @@ public class FeatureVectorType1 {
 	List<String> topics = new ArrayList<String>();
 	List<String> places = new ArrayList<String>();
 	List<String> keyWords = new ArrayList<String>();
+	
 
-
-public FeatureVectorType1(List<String> topics,List<String> places, String body){
+	public FeatureVectorType1(List<String> topics,List<String> places, String body){
 	this.topics = topics;
 	this.places = places;
 	this.keyWords = getKeyWords(body);
-
-
+	
+	
 	}
-
-public void printRefinedData(){
+	
+	public void printRefinedData(){
 		File file = new File("FeatureVector#1.csv");
 		FileWriter fw;
 		try {
@@ -36,28 +36,28 @@ public void printRefinedData(){
 			pw.println();
 			pw.close();
 		} catch (IOException e) {
-
+		
 			e.printStackTrace();
-		}
+		} 
 	}
-
-
-
-private static List<String> getKeyWords(String body){
+		
+		
+		
+	private static List<String> getKeyWords(String body){
 		Set<String> stopWords = getStopWords();
 		List<String> keyWords = new ArrayList<String>();
 		body = body.replaceAll("[0-9]", "");
 		body = body.toLowerCase();
-		String[] words = body.split("[[ ]*|[,]*|[\\.]*|[:]*|[>]*|[<]*|[>]*|[/]*|[!]*|[?]*|[+]*|[;]*|[&]*]+");
-
-
+		String[] words = body.split("[[ ]*|[,]*|[\\.]*|[:]*|[>]*|[<]*|[>]*|[/]*|[!]*|[?]*|[+]*|[;]*|[&]*|[(]*|[)]*|[\"]]+");
+		
+		
 		for(int i = 0;i<words.length-1;i++){
 			if(!stopWords.contains(words[i]) && words[i] != ""){
-
+				
 				keyWords.add(words[i]);
 			}
-		}
-
+		} 
+		
 		return keyWords;
 	}
 
@@ -68,14 +68,14 @@ private static List<String> getKeyWords(String body){
 			String line;
 			while ((line = br.readLine()) != null){
 				stopWords.add(line);
-
+				
 			}
-
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
-
+	
+		
 		return stopWords;
 
 	}

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SmellyParser {
-
-public static void parseFile(String filename){
+	
+	public static void parseFile(String filename){
 		List<String> topics = new ArrayList<String>();
 		List<String> places = new ArrayList<String>();
 		String body = "";
@@ -21,45 +21,49 @@ public static void parseFile(String filename){
 			    			body = body + line.substring(0,line.indexOf("</BODY>"));
 			    			inBody = false;
 			    			FeatureVectorType1 fVector = new FeatureVectorType1(topics,places,body);
+			    			PreProcess.count = PreProcess.count +1;
+			    			FeatureVectorType2 fVector2 = new FeatureVectorType2(topics,places,body);
+			    			//PreProcess.articles.add(fVector2);
+			    			
 			    			fVector.printRefinedData();
 			    			body = "";
-
+			    			
 			    		}
 			    		else{
 			    		body = body + line;
 			    		}
 			    	}
-
+			    	
 			    	else if(line.indexOf("<TOPICS>") >= 0){
 			    	 topics = getClassLabel(line,"topics");
-
-
+			    	 
+			    	  
 			      }
 			      else if(line.indexOf("<PLACES>") >= 0){
 			    	  places = getClassLabel(line,"places");
-
-
+			    	  
+			    	  
 			      }
 			      else if(line.indexOf("<BODY>") >= 0){
 			    	  inBody = true;
 			    	  body = body + line.substring(line.indexOf("<BODY>")+6, line.length());
-
+			    	  
 			    	   }
-
+			    
 			    }
 			}
-
-
+			
+		
 		catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-
-public static List<String> getClassLabel(String label, String type){
+	
+	public static List<String> getClassLabel(String label, String type){
 		if(type == "topics"){
-
+			
 			  label = label.substring(label.indexOf("<TOPICS>") + 8, label.indexOf("</TOPICS"));
-
+			  
 			  if(label.length() < 1){return null;}
 	    	  label = label.replaceAll("<D>", ",");
 	    	  label = label.substring(1,label.length());
@@ -75,8 +79,8 @@ public static List<String> getClassLabel(String label, String type){
 	    	  label =  label.replaceAll("</D>", "");
 	    	  List<String> places =  Arrays.asList(label.split("\\s*,\\s*"));
 	    	  return places;
-
-
+			
+	    	 
 	    	  }
 		else{
 			return null;
