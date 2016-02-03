@@ -4,5 +4,8 @@
 default:
 	javac ./src/*.java -d ./bin
 
+run:
+	java -cp ./bin PreProcess
+
 clean:
 	$(RM) ./bin/*.class
