@@ -15,37 +15,48 @@ public class SmellyParser {
 			try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			    String line;
 			    Boolean inBody = false;
-			    while ((line = br.readLine()) != null) {
+			    while((line = br.readLine()) != null) {
+			    	if(line.indexOf("</BODY>")>= 0 && line.indexOf("<BODY>")>= 0){
+			    		body = line.substring(line.indexOf("<BODY>")+6, line.indexOf("</BODY>"));
+			    		FeatureVectorType1 fVector = new FeatureVectorType1(topics,places,body);
+			    		FeatureVectorType2 fVector2 = new FeatureVectorType2(topics,places,body);
+		    			PreProcess.articles.add(fVector2);
+		    			
+		    			fVector.printRefinedData();
+		    			body = "";
+			    	}
 			    	if(inBody == true){
 			    		if(line.indexOf("</BODY>") >= 0){
-			    			body = body + line.substring(0,line.indexOf("</BODY>"));
+			    			body = body + " " + line.substring(0,line.indexOf("</BODY>"));
 			    			inBody = false;
 			    			FeatureVectorType1 fVector = new FeatureVectorType1(topics,places,body);
 			    			PreProcess.count = PreProcess.count +1;
 			    			FeatureVectorType2 fVector2 = new FeatureVectorType2(topics,places,body);
-			    			//PreProcess.articles.add(fVector2);
+			    			PreProcess.articles.add(fVector2);
 			    			
 			    			fVector.printRefinedData();
 			    			body = "";
 			    			
 			    		}
 			    		else{
-			    		body = body + line;
+			    		body = body + " " +line;
 			    		}
 			    	}
 			    	
 			    	else if(line.indexOf("<TOPICS>") >= 0){
 			    	 topics = getClassLabel(line,"topics");
-			    	 
+			    	 PreProcess.topicsCount = PreProcess.topicsCount +1;
 			    	  
 			      }
 			      else if(line.indexOf("<PLACES>") >= 0){
 			    	  places = getClassLabel(line,"places");
+			    	  PreProcess.placesCount = PreProcess.placesCount + 1;
 			    	  
 			    	  
 			      }
 			      else if(line.indexOf("<BODY>") >= 0){
 			    	  inBody = true;
+			    	  PreProcess.bodyCount = PreProcess.bodyCount+1;
 			    	  body = body + line.substring(line.indexOf("<BODY>")+6, line.length());
 			    	  
 			    	   }

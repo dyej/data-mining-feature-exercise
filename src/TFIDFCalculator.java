@@ -1,22 +1,29 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class TFIDFCalculator {
 	
 	
-	public double tf(List<String> article, String term){
+	static public double tf(List<String> article, String term){
+		int numOfArticles = 19043;
 		double result = 0;
 		for(String word: article){
 			if(term.equals(word)){
 				result++;
 			}
 		}
-		return result/ article.size();
+		return result/ numOfArticles;
 	}
 	
-	public double idf(List<FeatureVectorType2> docs, String term){
+	static public double idf(List<FeatureVectorType2> docs, String term){
 		double count = 0;
+		int numOfArticles = 19043;
+		
+		
 		for(FeatureVectorType2 doc: docs){
-			for(String word : doc.keyWords){
+		
+	
+			for(String word : doc.allWords){
 				if(term.equals(word)){
 					count++;
 					break;
@@ -24,9 +31,10 @@ public class TFIDFCalculator {
 			}
 			
 		}
-		return Math.log(21578 / count);
+		return Math.log( numOfArticles/ count);
 	}
-	public double tfidf(double tf, double idf){
+	static public double tfidf(double tf, double idf){
+		
 		return tf*idf;
 	}
 	

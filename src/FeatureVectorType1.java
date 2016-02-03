@@ -61,7 +61,7 @@ public class FeatureVectorType1 {
 		return keyWords;
 	}
 
-	private static Set<String> getStopWords(){
+	static Set<String> getStopWords(){
 		File file = new File("stopWords.txt");
 		Set<String> stopWords = new TreeSet<String>();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
