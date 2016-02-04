@@ -1,18 +1,14 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Random;
 
 
 public class FeatureVectorType2 {
@@ -43,9 +39,16 @@ public class FeatureVectorType2 {
 	public void getKeyWords(){
 		AbstractMap<String, Double> scoreMap = new HashMap<String,Double>();
 		Double sum = 0.0;
+		HashSet<Integer> randomArticlesIndex = new HashSet<Integer>();
+		ArrayList<FeatureVectorType2> randomArticles = new ArrayList<FeatureVectorType2>();
+		Random rng = new Random();
+		for(int i = 0;i<400;i++){
+			randomArticles.add(PreProcess.articles.get(rng.nextInt(19043)));
+		}
+		
 		for(String word: this.allWords){
 			double tf = TFIDFCalculator.tf(allWords,word);
-			double idf = TFIDFCalculator.idf(PreProcess.articles, word);
+			double idf = TFIDFCalculator.idf(randomArticles, word);
 			double score = TFIDFCalculator.tfidf(tf, idf);
 			
 			sum = sum + score;
