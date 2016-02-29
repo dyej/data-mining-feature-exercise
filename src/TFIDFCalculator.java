@@ -12,7 +12,7 @@ public class TFIDFCalculator {
 				result++;
 			}
 		}
-		return result/ numOfArticles;
+		return result;
 	}
 	
 	static public double idf(List<FeatureVectorType2> docs, String term){
@@ -31,7 +31,10 @@ public class TFIDFCalculator {
 			}
 			
 		}
-		return Math.log( numOfArticles/ count);
+		if (count == 0) {
+			count = 1;
+		}
+		return Math.log(300/ count);
 	}
 	static public double tfidf(double tf, double idf){
 		

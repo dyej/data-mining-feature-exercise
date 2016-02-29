@@ -42,13 +42,15 @@ public class FeatureVectorType2 {
 		HashSet<Integer> randomArticlesIndex = new HashSet<Integer>();
 		ArrayList<FeatureVectorType2> randomArticles = new ArrayList<FeatureVectorType2>();
 		Random rng = new Random();
-		for(int i = 0;i<400;i++){
+		for(int i = 0;i<300;i++){
 			randomArticles.add(PreProcess.articles.get(rng.nextInt(19043)));
 		}
 		
 		for(String word: this.allWords){
 			double tf = TFIDFCalculator.tf(allWords,word);
+			
 			double idf = TFIDFCalculator.idf(randomArticles, word);
+			
 			double score = TFIDFCalculator.tfidf(tf, idf);
 			
 			sum = sum + score;
@@ -60,12 +62,14 @@ public class FeatureVectorType2 {
 		for(String key : keys){
 			///System.out.println(scoreMap.get(key) > 0.0);
 			//System.out.println(key);
-		if(scoreMap.get(key) > 0.0){
+		if(scoreMap.get(key) > sum/scoreMap.size()){
+			
 			keyWords.add(key);
 		}
 		}
 	}
 	public void printRefinedData(){
+		System.out.println(keyWords);
 		File file = new File("FeatureVector#2.csv");
 		FileWriter fw;
 		try {
