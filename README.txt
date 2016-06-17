@@ -1,4 +1,4 @@
-Data Mining Lab 1 README
+Data Mining README
 Authors: Joseph Dye and Trevor Stockert
 
 First, browse to the project's root folder in the command line.
